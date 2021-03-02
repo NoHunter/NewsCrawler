@@ -36,6 +36,9 @@ bower_components
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
+/dist
+/tmp
+/out-tsc
 
 # Dependency directories
 node_modules/
@@ -43,6 +46,27 @@ jspm_packages/
 
 # TypeScript v1 declaration files
 typings/
+
+# profiling files
+chrome-profiler-events*.json
+speed-measure-plugin*.json
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
 
 # TypeScript cache
 *.tsbuildinfo
@@ -102,3 +126,18 @@ dist
 
 # TernJS port file
 .tern-port
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
