@@ -1,1 +1,1 @@
-# NewsCrawler
+# NewsCrawler 1.0
