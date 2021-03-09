@@ -23,3 +23,11 @@ export interface FeedInfo {
   pubDate: Date;
   item: FeedEntry[];
 }
+
+export class FeedData {
+  title: string;
+  image: FeedImage;
+  link: string;
+  description: string;
+  pubDate: Date;
+}

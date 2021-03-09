@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   feedLocation = environment.feedLocation + '?v=' + Math.random();  // prevent browser caching
 
   title: string;
-  feeds: Array<FeedEntry> = [];
+  feeds: Array<FeedData> = [];
   
   @ViewChild('lghost') lghost: ElementRef;
 
@@ -34,19 +34,19 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-      const addtohomescript = document.createElement('script');
-      addtohomescript.type = 'text/javascript';
-      addtohomescript.innerHTML = 'addToHomescreen();';
-      this.elementRef.nativeElement.appendChild(addtohomescript);
+      // const addtohomescript = document.createElement('script');
+      // addtohomescript.type = 'text/javascript';
+      // addtohomescript.innerHTML = 'addToHomescreen();';
+      // this.elementRef.nativeElement.appendChild(addtohomescript);
 
-      const lgscript = document.createElement('script');
-      lgscript.type = 'module';
-      lgscript.src = 'https://djjb.foehst.net/lehrgangsanmeldung.js';
-      this.elementRef.nativeElement.appendChild(lgscript);
+      // const lgscript = document.createElement('script');
+      // lgscript.type = 'module';
+      // lgscript.src = 'https://djjb.foehst.net/lehrgangsanmeldung.js';
+      // this.elementRef.nativeElement.appendChild(lgscript);
 
-      let lglist = document.createElement('x-lehrgangsanmeldung');
-      lglist.style.cssText='font-size: .8em; overflow-y: auto;'
-      this.lghost.nativeElement.appendChild(lglist)
+      // let lglist = document.createElement('x-lehrgangsanmeldung');
+      // lglist.style.cssText='font-size: .8em; overflow-y: auto;'
+      // this.lghost.nativeElement.appendChild(lglist)
   }
 
   refreshFeed() {
@@ -54,10 +54,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.feedService.getFeedContent(this.feedLocation).pipe(delay(500))
         .subscribe(
-            feed => {
+            feedData => {
               // console.log('feed: ' , feed);
-              this.title = feed.rss.channel.description;
-              this.feeds = feed.rss.channel.item;
+              //this.title = feed.rss.channel.description;
+              this.feeds = feedData;
             } ,
             error => console.log(error));
   }

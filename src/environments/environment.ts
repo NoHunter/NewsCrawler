@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  feedLocation: './assets/sample.rss'
+  //feedLocation: './assets/sample.rss'
+  feedLocation: 'news-releases/news-releases-list/'
 };
 
 /*

@@ -17,7 +17,7 @@ export class ThumbnailPipe implements PipeTransform {
     // credits: https://stackoverflow.com/questions/34153908/get-img-from-rss-namespaced-element-like-contentencoded
     const pattern = /<img[^>]+src="([^">]+)"/;
     const img = pattern.exec(content);
-    return img[1];
+    return null;
   }
 
 }
