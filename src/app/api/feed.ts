@@ -25,6 +25,7 @@ export interface FeedInfo {
 }
 
 export class FeedData {
+  companyTitle: string;
   title: string;
   image: FeedImage;
   link: string;

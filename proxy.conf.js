@@ -4,6 +4,12 @@ var proxyConfig = [{
   target: 'https://www.prnewswire.com',
   secure: false,
   changeOrigin: true
+},
+{
+  context: '/en',
+  target: 'https://www.globenewswire.com',
+  secure: false,
+  changeOrigin: true
 }];
 
 function setupForCorporateProxy(proxyConfig) {

@@ -14,9 +14,19 @@ export class FeedService {
 
   constructor(private http: HttpClient) { }
 
-  getFeedContent(url: string): Observable<Array<FeedData>> {
+  getFeedContent(url: string, mode: Number): Observable<Array<FeedData>> {
     return this.http.get(url, {responseType: 'text'}).pipe(
-      map(this.extractFeedsResponse));
+      map((data : any) => {
+        switch(mode)
+        {
+          case 1:
+            return this.extractPrnewswireFeedsResponse(data, mode)
+          case 2:
+            return this.extractGlobenewswireFeedsResponse(data, mode)
+          default:
+            return [];
+        }
+      }));
   }
 
 /**
@@ -40,7 +50,7 @@ private extractFeeds(response: any): Feed {
     return feed || { };
   }
 
-  private extractFeedsResponse(response: any): Array<FeedData> {
+  private extractPrnewswireFeedsResponse(response: any, mode: Number): Array<FeedData> {
     const domParser = new DOMParser();
     let feeds: Array<FeedData> = [];
     let result : any;
@@ -56,6 +66,30 @@ private extractFeeds(response: any): Feed {
       feedData.description = desDiv[i].innerText;
       feedData.image = imgDiv[i].childNodes[1].src;
       feedData.link = linkDiv[i].href;
+      feeds.push(feedData);
+    }
+
+    return feeds || [];
+  }
+
+  private extractGlobenewswireFeedsResponse(response: any, mode: Number): Array<FeedData> {
+    const domParser = new DOMParser();
+    let feeds: Array<FeedData> = [];
+    let result : any;
+    result = domParser.parseFromString(response, "text/html");
+    let targetDiv = result.getElementsByClassName("results-link");
+    //let imgDiv = result.getElementsByClassName("image_spacer");
+    //let contentDiv = result.getElementsByClassName("post-title16px");
+    //let linkDiv = result.getElementsByClassName("newsreleaseconsolidatelink display-outline");
+    //let desDiv = result.getElementsByClassName("remove-outline");
+    for(let i = 0; i < targetDiv.length;i++)
+    {
+      let feedData = new FeedData();
+      feedData.companyTitle = targetDiv[i].childNodes[3].innerText;
+      feedData.title = targetDiv[i].childNodes[5].innerText;
+      feedData.description = targetDiv[i].childNodes[7].innerText;
+      feedData.image = targetDiv[i].childNodes[1].childNodes[1].firstElementChild.src;
+      feedData.link = targetDiv[i].childNodes[5].childNodes[0].href;
       feeds.push(feedData);
     }
 

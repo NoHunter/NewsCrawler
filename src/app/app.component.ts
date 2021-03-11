@@ -5,6 +5,7 @@ import { delay } from 'rxjs/internal/operators';
 import { FeedService } from './services/feed.service';
 import { FeedEntry } from './api/feed-entry';
 import { environment } from '../environments/environment';
+import { FeedData } from './api/feed';
 
 @Component({
   // tslint:disable-next-line: component-selector
@@ -16,10 +17,12 @@ import { environment } from '../environments/environment';
 })
 
 export class AppComponent implements OnInit, AfterViewInit {
-  feedLocation = environment.feedLocation + '?v=' + Math.random();  // prevent browser caching
+  prnewswireFeedLocation = environment.prnewswireFeedLocation + '?v=' + Math.random();  // prevent browser caching
+  globenewswireFeedLocation = environment.globenewswireFeedLocation + '?v=' + Math.random();  // prevent browser caching
 
   title: string;
-  feeds: Array<FeedData> = [];
+  prnewswireFeeds: Array<FeedData> = [];
+  globenewswireFeeds: Array<FeedData> = [];
   
   @ViewChild('lghost') lghost: ElementRef;
 
@@ -50,16 +53,25 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   refreshFeed() {
-    this.feeds.length = 0;
+    this.prnewswireFeeds.length = 0;
+    this.globenewswireFeeds.length = 0;
 
-    this.feedService.getFeedContent(this.feedLocation).pipe(delay(500))
+    this.feedService.getFeedContent(this.prnewswireFeedLocation, 1).pipe(delay(500))
         .subscribe(
-            feedData => {
+          prnewswireFeedData => {
               // console.log('feed: ' , feed);
               //this.title = feed.rss.channel.description;
-              this.feeds = feedData;
+              this.prnewswireFeeds = prnewswireFeedData;
             } ,
             error => console.log(error));
+    this.feedService.getFeedContent(this.globenewswireFeedLocation, 2).pipe(delay(500))
+    .subscribe(
+      globenewswireFeedData => {
+          // console.log('feed: ' , feed);
+          //this.title = feed.rss.channel.description;
+          this.globenewswireFeeds = globenewswireFeedData;
+        } ,
+        error => console.log(error));
   }
 
   openLinkInBrowser(feed: { link: string; }) {

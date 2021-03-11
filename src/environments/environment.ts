@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   //feedLocation: './assets/sample.rss'
-  feedLocation: 'news-releases/news-releases-list/'
+  prnewswireFeedLocation: 'news-releases/news-releases-list/',
+  globenewswireFeedLocation: 'en/',
 };
 
 /*
