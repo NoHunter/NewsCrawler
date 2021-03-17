@@ -10,6 +10,30 @@ var proxyConfig = [{
   target: 'https://www.globenewswire.com',
   secure: false,
   changeOrigin: true
+},
+{
+  context: '/portal/site/home/news',
+  target: 'https://www.businesswire.com',
+  secure: false,
+  changeOrigin: true
+},
+{
+  context: '/newsroom',
+  target: 'https://www.accesswire.com',
+  secure: false,
+  changeOrigin: true
+},
+{
+  context: '/in-the-corporate-news',
+  target: 'https://www.mtnewswires.com',
+  secure: false,
+  changeOrigin: true
+},
+{
+  context: '/business',
+  target: 'https://www.reuters.com',
+  secure: false,
+  changeOrigin: true
 }];
 
 function setupForCorporateProxy(proxyConfig) {

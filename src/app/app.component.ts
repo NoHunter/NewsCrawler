@@ -19,10 +19,12 @@ import { FeedData } from './api/feed';
 export class AppComponent implements OnInit, AfterViewInit {
   prnewswireFeedLocation = environment.prnewswireFeedLocation + '?v=' + Math.random();  // prevent browser caching
   globenewswireFeedLocation = environment.globenewswireFeedLocation + '?v=' + Math.random();  // prevent browser caching
+  businesswireFeedLocation = environment.businesswireFeedLocation + '?v=' + Math.random();  // prevent browser caching
 
   title: string;
   prnewswireFeeds: Array<FeedData> = [];
   globenewswireFeeds: Array<FeedData> = [];
+  businesswireFeeds: Array<FeedData> = [];
   
   @ViewChild('lghost') lghost: ElementRef;
 
@@ -55,21 +57,25 @@ export class AppComponent implements OnInit, AfterViewInit {
   refreshFeed() {
     this.prnewswireFeeds.length = 0;
     this.globenewswireFeeds.length = 0;
+    this.businesswireFeeds.length = 0;
 
     this.feedService.getFeedContent(this.prnewswireFeedLocation, 1).pipe(delay(500))
         .subscribe(
           prnewswireFeedData => {
-              // console.log('feed: ' , feed);
-              //this.title = feed.rss.channel.description;
               this.prnewswireFeeds = prnewswireFeedData;
             } ,
             error => console.log(error));
     this.feedService.getFeedContent(this.globenewswireFeedLocation, 2).pipe(delay(500))
     .subscribe(
       globenewswireFeedData => {
-          // console.log('feed: ' , feed);
-          //this.title = feed.rss.channel.description;
           this.globenewswireFeeds = globenewswireFeedData;
+        } ,
+        error => console.log(error));
+
+    this.feedService.getFeedContent(this.businesswireFeedLocation, 3).pipe(delay(500))
+    .subscribe(
+      businesswireFeedData => {
+          this.businesswireFeeds = businesswireFeedData;
         } ,
         error => console.log(error));
   }

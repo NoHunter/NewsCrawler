@@ -7,6 +7,7 @@ export const environment = {
   //feedLocation: './assets/sample.rss'
   prnewswireFeedLocation: 'news-releases/news-releases-list/',
   globenewswireFeedLocation: 'en/',
+  businesswireFeedLocation: 'portal/site/home/news/',
 };
 
 /*

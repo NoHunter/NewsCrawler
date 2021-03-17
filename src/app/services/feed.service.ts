@@ -23,6 +23,8 @@ export class FeedService {
             return this.extractPrnewswireFeedsResponse(data, mode)
           case 2:
             return this.extractGlobenewswireFeedsResponse(data, mode)
+          case 3:
+            return this.extractBusinesswireFeedsResponse(data, mode)
           default:
             return [];
         }
@@ -62,10 +64,10 @@ private extractFeeds(response: any): Feed {
     for(let i = 0; i < contentDiv.length;i++)
     {
       let feedData = new FeedData();
-      feedData.title = contentDiv[i].innerText;
-      feedData.description = desDiv[i].innerText;
-      feedData.image = imgDiv[i].childNodes[1].src;
-      feedData.link = linkDiv[i].href;
+      feedData.title = contentDiv[i]?.innerText;
+      feedData.description = desDiv[i]?.innerText;
+      feedData.image = imgDiv[i]?.childNodes[1]?.src;
+      feedData.link = linkDiv[i]?.href;
       feeds.push(feedData);
     }
 
@@ -85,15 +87,37 @@ private extractFeeds(response: any): Feed {
     for(let i = 0; i < targetDiv.length;i++)
     {
       let feedData = new FeedData();
-      feedData.companyTitle = targetDiv[i].childNodes[3].innerText;
-      feedData.title = targetDiv[i].childNodes[5].innerText;
-      feedData.description = targetDiv[i].childNodes[7].innerText;
-      feedData.image = targetDiv[i].childNodes[1].childNodes[1].firstElementChild.src;
-      feedData.link = targetDiv[i].childNodes[5].childNodes[0].href;
+      feedData.companyTitle = targetDiv[i]?.childNodes[3]?.innerText;
+      feedData.title = targetDiv[i]?.childNodes[5]?.innerText;
+      feedData.description = targetDiv[i]?.childNodes[7]?.innerText;
+      feedData.image = targetDiv[i]?.childNodes[1]?.childNodes[1]?.firstElementChild?.src;
+      feedData.link = targetDiv[i]?.childNodes[5]?.childNodes[0]?.href;
       feeds.push(feedData);
     }
 
     return feeds || [];
   }
 
+  private extractBusinesswireFeedsResponse(response: any, mode: Number): Array<FeedData> {
+    const domParser = new DOMParser();
+    let feeds: Array<FeedData> = [];
+    let result : any;
+    //response = response.replace(/(?:\\[rn]|[\r\n]+)+/g, "");
+    result = domParser.parseFromString(response, "text/html");
+    let bwThumbs = result.getElementsByClassName("bwThumbs");
+    let bwTitleLink = result.getElementsByClassName("bwTitleLink");
+    let bwTimestamp = result.getElementsByClassName("bwTimestamp");
+    for(let i = 0; i < bwThumbs.length;i++)
+    {
+      let feedData = new FeedData();
+      feedData.companyTitle = bwTimestamp[i]?.innerText;
+      feedData.title = bwTitleLink[i]?.innerText;
+      feedData.description = bwTitleLink[i]?.innerText;
+      feedData.image = bwThumbs[i]?.childNodes[1]?.childNodes[0]?.src;
+      feedData.link = bwTitleLink[i]?.href;
+      feeds.push(feedData);
+    }
+
+    return feeds || [];
+  }
 }
